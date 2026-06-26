@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3l15aohxcgf5"]
+
+[ext_resource type="Script" path="res://scenes/JogoPrincipal.gd" id="1_kyieo"]
+[ext_resource type="Script" path="res://scripts/Ovelhinha.gd" id="2_ee6g3"]
+
+[node name="JogoPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_kyieo")
+
+[node name="Fundo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("2_ee6g3")
+
+[node name="ContainerBotoes" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 223.0
+offset_bottom = 50.0
+
+[node name="BtnAlimentar" type="Button" parent="ContainerBotoes"]
+layout_mode = 2
+text = "Alimentar"
+
+[node name="BtnBanhar" type="Button" parent="ContainerBotoes"]
+layout_mode = 2
+text = "Banhar"
+
+[node name="BtnBrincar" type="Button" parent="ContainerBotoes"]
+layout_mode = 2
+text = "Brincar"
+
+[connection signal="pressed" from="ContainerBotoes/BtnAlimentar" to="." method="_on_btn_alimentar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BtnBanhar" to="." method="_on_btn_banhar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BtnBrincar" to="." method="_on_btn_brincar_pressed"]

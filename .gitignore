@@ -1,0 +1,11 @@
+# Godot
+.import/
+export.cfg
+export_credentials.cfg
+*.translation
+.mono/
+.godot/
+
+# Android
+*.apk
+*.aab

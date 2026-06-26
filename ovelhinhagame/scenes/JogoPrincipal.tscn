@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3o0bj0k32xws"]
+
+[ext_resource type="Script" path="res://scenes/JogoPrincipal.gd" id="1_h5hfu"]
+[ext_resource type="Texture2D" uid="uid://c6cpv43g2eset" path="res://assets/Gemini_Generated_Image_e9sux7e9sux7e9su_r1_c1.png" id="2_tjcql"]
+[ext_resource type="Texture2D" uid="uid://c3kc10at54x0y" path="res://assets/Gemini_Generated_Image_e9sux7e9sux7e9su_r1_c2.png" id="3_8i06h"]
+[ext_resource type="Texture2D" uid="uid://kcflo2684h8n" path="res://assets/Gemini_Generated_Image_e9sux7e9sux7e9su_r1_c3.png" id="4_gexfr"]
+[ext_resource type="Texture2D" uid="uid://okjxkq187pxt" path="res://assets/Gemini_Generated_Image_1ri670t1ri67t1ri6.png" id="5_4pxkc"]
+
+[sub_resource type="Gradient" id="Gradient_d1jff"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_enu33"]
+gradient = SubResource("Gradient_d1jff")
+width = 200
+height = 25
+
+[sub_resource type="Gradient" id="Gradient_u4u7a"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2s2ov"]
+gradient = SubResource("Gradient_u4u7a")
+width = 200
+height = 25
+
+[node name="JogoPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 720.0
+offset_bottom = 1282.0
+script = ExtResource("1_h5hfu")
+
+[node name="Fundo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -5.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ContainerBotoes" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -281.0
+offset_top = -200.0
+offset_right = 281.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 56
+
+[node name="BtnAlimentar" type="TextureButton" parent="ContainerBotoes"]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+texture_normal = ExtResource("2_tjcql")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="BtnBanhar" type="TextureButton" parent="ContainerBotoes"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+texture_normal = ExtResource("3_8i06h")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="BtnBrincar" type="TextureButton" parent="ContainerBotoes"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+texture_normal = ExtResource("4_gexfr")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Ovelhinha" type="Sprite2D" parent="."]
+position = Vector2(364, 641)
+scale = Vector2(0.753731, 0.737522)
+texture = ExtResource("5_4pxkc")
+
+[node name="HUD" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -314.0
+offset_top = 38.0
+offset_right = -33.0
+offset_bottom = 113.0
+grow_horizontal = 0
+
+[node name="BarraSaude" type="TextureProgressBar" parent="HUD"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+texture_under = SubResource("GradientTexture2D_enu33")
+texture_progress_offset = Vector2(100, 25)
+tint_under = Color(0.365598, 0.815001, 0.63684, 1)
+
+[node name="BarraFelicidade" type="TextureProgressBar" parent="HUD"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+texture_under = SubResource("GradientTexture2D_2s2ov")
+tint_under = Color(1, 1, 0.247059, 1)
+
+[connection signal="pressed" from="ContainerBotoes/BtnAlimentar" to="." method="_on_btn_alimentar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BtnBanhar" to="." method="_on_btn_banhar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BtnBrincar" to="." method="_on_btn_brincar_pressed"]
