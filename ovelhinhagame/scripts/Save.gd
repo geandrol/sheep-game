@@ -1,38 +1,38 @@
 extends Node
 
-func salvar():
+# ═══════════════════════════════════════════
+# Save.gd — Autoload
+# Adicione em: Project > Project Settings > Autoload
+# Nome: Save | Caminho: res://scripts/Save.gd
+# ═══════════════════════════════════════════
 
-	var save=FileAccess.open(
-	"user://save.dat",
-	FileAccess.WRITE
-	)
+const CAMINHO_SAVE = "user://save.dat"
 
-	var dados={
-
-		"moedas":Globals.moedas,
-		"fome":Globals.fome,
-		"felicidade":Globals.felicidade,
-		"higiene":Globals.higiene,
-		"energia":Globals.energia
+func salvar() -> void:
+	var dados = {
+		"saude":      Globals.saude,
+		"felicidade": Globals.felicidade,
 	}
+	var arquivo = FileAccess.open(CAMINHO_SAVE, FileAccess.WRITE)
+	if arquivo:
+		arquivo.store_var(dados)
+		arquivo.close()
 
-	save.store_var(dados)
-
-
-func carregar():
-
-	if !FileAccess.file_exists("user://save.dat"):
+func carregar() -> void:
+	if not FileAccess.file_exists(CAMINHO_SAVE):
+		# Primeiro acesso — valores padrão
+		Globals.saude      = 80.0
+		Globals.felicidade = 80.0
 		return
 
-	var save=FileAccess.open(
-	"user://save.dat",
-	FileAccess.READ
-	)
+	var arquivo = FileAccess.open(CAMINHO_SAVE, FileAccess.READ)
+	if arquivo:
+		var dados = arquivo.get_var()
+		arquivo.close()
+		if dados is Dictionary:
+			Globals.saude      = dados.get("saude",      80.0)
+			Globals.felicidade = dados.get("felicidade", 80.0)
 
-	var dados=save.get_var()
-
-	Globals.moedas=dados["moedas"]
-	Globals.fome=dados["fome"]
-	Globals.felicidade=dados["felicidade"]
-	Globals.higiene=dados["higiene"]
-	Globals.energia=dados["energia"]
+func deletar_save() -> void:
+	if FileAccess.file_exists(CAMINHO_SAVE):
+		DirAccess.remove_absolute(CAMINHO_SAVE)

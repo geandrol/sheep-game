@@ -1,37 +1,52 @@
 extends Control
 
-# Criando referências para as barras da cena
-@onready var barra_saude = $HUD/BarraSaude
+@onready var barra_saude      = $HUD/BarraSaude
 @onready var barra_felicidade = $HUD/BarraFelicidade
 
+const DECAIMENTO_SAUDE      = 2.0
+const DECAIMENTO_FELICIDADE = 1.5
+const INTERVALO_DECAIMENTO  = 5.0
+
+var timer_acumulado = 0.0
+
 func _ready() -> void:
-	# Define o valor máximo das barras como 100
-	barra_saude.max_value = 100
+	barra_saude.max_value      = 100
 	barra_felicidade.max_value = 100
+	Save.carregar()
+	_atualizar_barras()
 
 func _process(delta: float) -> void:
-	# Faz o visual das barras seguir exatamente os valores globais
-	barra_saude.value = Globals.saude
+	timer_acumulado += delta
+	if timer_acumulado >= INTERVALO_DECAIMENTO:
+		timer_acumulado = 0.0
+		_on_decaimento()
+
+func _atualizar_barras() -> void:
+	barra_saude.value      = Globals.saude
 	barra_felicidade.value = Globals.felicidade
 
-# Conectado do BtnAlimentar
+func _on_decaimento() -> void:
+	Globals.saude      = clamp(Globals.saude - DECAIMENTO_SAUDE, 0, 100)
+	Globals.felicidade = clamp(Globals.felicidade - DECAIMENTO_FELICIDADE, 0, 100)
+	_atualizar_barras()
+	Save.salvar()
+
 func _on_btn_alimentar_pressed() -> void:
-	Globals.saude += 10.0
-	# Impede que passe de 100
-	Globals.saude = clamp(Globals.saude, 0, 100)
-	print("Ovelhinha alimentada! Saúde: ", Globals.saude)
+	Globals.saude = clamp(Globals.saude + 10.0, 0, 100)
+	_atualizar_barras()
+	Save.salvar()
 
-# Conectado do BtnBanhar
 func _on_btn_banhar_pressed() -> void:
-	Globals.saude += 5.0
-	Globals.felicidade += 5.0
-	Globals.saude = clamp(Globals.saude, 0, 100)
-	Globals.felicidade = clamp(Globals.felicidade, 0, 100)
-	print("Ovelhinha de banho tomado!")
+	Globals.saude      = clamp(Globals.saude + 5.0, 0, 100)
+	Globals.felicidade = clamp(Globals.felicidade + 5.0, 0, 100)
+	_atualizar_barras()
+	Save.salvar()
 
-# Conectado do BtnBrincar
 func _on_btn_brincar_pressed() -> void:
-	Globals.felicidade += 10.0
-	Globals.felicidade = clamp(Globals.felicidade, 0, 100)
-	print("Ovelhinha brincou! Felicidade: ", Globals.felicidade)
-	
+	Globals.felicidade = clamp(Globals.felicidade + 10.0, 0, 100)
+	_atualizar_barras()
+	Save.salvar()
+
+func _on_btn_minijogos_pressed() -> void:
+	Save.salvar()
+	get_tree().change_scene_to_file("res://scenes/ui/minigames.tscn")
